@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ReLife Dashboard</title>
+
+<style>
+body {
+  margin:0;
+  font-family: Arial;
+  background:#F5F7FA;
+}
+
+header {
+  background:#0A2540;
+  color:white;
+  padding:15px;
+  text-align:center;
+  font-size:22px;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  padding:20px;
+}
+
+.card {
+  background:white;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+  overflow:hidden;
+}
+
+.card img {
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+
+.card div {
+  padding:10px;
+}
+
+h3 {margin:0;}
+</style>
+
+</head>
+
+<body>
+
+<header>ReLife Resources</header>
+
+<div class="grid" id="cards"></div>
+
+<script>
+fetch("http://localhost:8080/api/resources")
+.then(r=>r.json())
+.then(data=>{
+  let html="";
+  data.forEach(r=>{
+    html+=`
+    <div class="card">
+      <img src="${r.imageUrl}">
+      <div>
+        <h3>${r.title}</h3>
+        <p>${r.description}</p>
+        <b>${r.city}</b><br>
+        Owner: ${r.ownerName}
+      </div>
+    </div>
+    `;
+  });
+  document.getElementById("cards").innerHTML=html;
+});
+</script>
+
+</body>
+</html>
